@@ -1,6 +1,7 @@
 package com.example.bcsd.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,7 +37,7 @@ public class ArticleController {
     @PostMapping()
     public ResponseEntity<ArticleResponseDto> createArticle(@RequestBody ArticleCreateRequestDto requestDto){
         ArticleResponseDto articleDto = articleService.createArticle(requestDto.getTitle(), requestDto.getContent());
-        return ResponseEntity.ok().body(articleDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(articleDto);
     }
 
     @PutMapping("/{id}")
@@ -50,6 +51,5 @@ public class ArticleController {
         articleService.deleteArticle(id);
         return ResponseEntity.noContent().build();
     }
-    
     
 }
