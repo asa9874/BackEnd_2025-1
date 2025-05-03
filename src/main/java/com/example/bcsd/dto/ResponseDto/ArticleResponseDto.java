@@ -1,5 +1,7 @@
 package com.example.bcsd.dto.ResponseDto;
 
+import com.example.bcsd.model.Article;
+
 public class ArticleResponseDto {
     private Long id;
     private String title;
@@ -33,5 +35,9 @@ public class ArticleResponseDto {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public static ArticleResponseDto from(Article article) {
+        return new ArticleResponseDto(article.getId(), article.getTitle(), article.getContent());
     }
 }

@@ -3,6 +3,8 @@ package com.example.bcsd.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.bcsd.dto.ResponseDto.ArticleResponseDto;
+import com.example.bcsd.model.Article;
 import com.example.bcsd.repository.ArticleRepository;
 
 @Service
@@ -11,26 +13,28 @@ public class ArticleService {
     @Autowired
     private ArticleRepository articleRepository;
 
-    public String getArticle(String id) {
-        String article = articleRepository.findById(Long.valueOf(id))
+    public ArticleResponseDto getArticle(String id) {
+        Article article = articleRepository.findById(Long.valueOf(id))
                 .orElseThrow(() -> new IllegalArgumentException("해당 기사가 없습니다."));
-        
-        return article;
+        return ArticleResponseDto.from(article);
     }
 
-    public String createArticle(String article) {
-        return "";
+    public ArticleResponseDto createArticle(String article) {
+
+        return null;
     }
 
-    public String updateArticle(String id, String articleContent) {
-        String article = articleRepository.findById(Long.valueOf(id))
+    public ArticleResponseDto updateArticle(String id, String articleContent) {
+        Article article = articleRepository.findById(Long.valueOf(id))
                 .orElseThrow(() -> new IllegalArgumentException("해당 기사가 없습니다."));
         
-        return "";
+        return ArticleResponseDto.from(article);
     }
 
     public void deleteArticle(String id) {
-        String article = articleRepository.findById(Long.valueOf(id))
+        Article article = articleRepository.findById(Long.valueOf(id))
                 .orElseThrow(() -> new IllegalArgumentException("해당 기사가 없습니다."));
+
+        
     }
 }

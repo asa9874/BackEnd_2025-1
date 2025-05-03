@@ -2,12 +2,12 @@ package com.example.bcsd.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.example.bcsd.dto.ResponseDto.ArticleResponseDto;
 import com.example.bcsd.service.ArticleService;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 
 
-@Controller
+@RestController
 @RequestMapping("/articles")
 public class ArticleController {
     
@@ -26,21 +26,21 @@ public class ArticleController {
     private ArticleService articleService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<String> getArticle(@PathVariable String id){
-        String article = articleService.getArticle(id);
-        return ResponseEntity.ok().body(article);
+    public ResponseEntity<ArticleResponseDto> getArticle(@PathVariable String id){
+        ArticleResponseDto articleDto = articleService.getArticle(id);
+        return ResponseEntity.ok().body(articleDto);
     }
 
     @PostMapping()
-    public ResponseEntity<String> createArticle(@RequestBody String article){
-        String createdArticle = articleService.createArticle(article);
-        return ResponseEntity.ok().body(createdArticle);
+    public ResponseEntity<ArticleResponseDto> createArticle(@RequestBody String article){
+        ArticleResponseDto articleDto = articleService.createArticle(article);
+        return ResponseEntity.ok().body(articleDto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateArticle(@PathVariable String id, @RequestBody String article){
-        String updatedArticle = articleService.updateArticle(id, article);
-        return ResponseEntity.ok().body(updatedArticle);
+    public ResponseEntity<ArticleResponseDto> updateArticle(@PathVariable String id, @RequestBody String article){
+        ArticleResponseDto articleDto = articleService.updateArticle(id, article);
+        return ResponseEntity.ok().body(articleDto);
     }
 
     @DeleteMapping("/{id}")

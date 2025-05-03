@@ -4,9 +4,11 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
+import com.example.bcsd.model.Article;
+
 @Component
 public class ArticleRepository {
-    public Optional<String> findById(Long id) {
+    public Optional<Article> findById(Long id) {
         return Optional.empty();
     }
 
