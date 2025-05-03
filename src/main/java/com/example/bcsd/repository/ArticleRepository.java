@@ -16,12 +16,7 @@ public class ArticleRepository {
 
     }
 
-    public void save(String article) {
+    public void save(Article article) {
         
     }
-
-    public void update(String article) {
-
-    }
-
 }

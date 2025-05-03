@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.bcsd.dto.RequestDto.ArticleCreateRequestDto;
+import com.example.bcsd.dto.RequestDto.ArticleUpdateRequestDto;
 import com.example.bcsd.dto.ResponseDto.ArticleResponseDto;
 import com.example.bcsd.service.ArticleService;
 
@@ -26,25 +28,25 @@ public class ArticleController {
     private ArticleService articleService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<ArticleResponseDto> getArticle(@PathVariable String id){
+    public ResponseEntity<ArticleResponseDto> getArticle(@PathVariable Long id){
         ArticleResponseDto articleDto = articleService.getArticle(id);
         return ResponseEntity.ok().body(articleDto);
     }
 
     @PostMapping()
-    public ResponseEntity<ArticleResponseDto> createArticle(@RequestBody String article){
-        ArticleResponseDto articleDto = articleService.createArticle(article);
+    public ResponseEntity<ArticleResponseDto> createArticle(@RequestBody ArticleCreateRequestDto requestDto){
+        ArticleResponseDto articleDto = articleService.createArticle(requestDto.getTitle(), requestDto.getContent());
         return ResponseEntity.ok().body(articleDto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ArticleResponseDto> updateArticle(@PathVariable String id, @RequestBody String article){
-        ArticleResponseDto articleDto = articleService.updateArticle(id, article);
+    public ResponseEntity<ArticleResponseDto> updateArticle(@PathVariable Long id, @RequestBody ArticleUpdateRequestDto requestDto){
+        ArticleResponseDto articleDto = articleService.updateArticle(id, requestDto.getTitle(), requestDto.getContent());
         return ResponseEntity.ok().body(articleDto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteArticle(@PathVariable String id){
+    public ResponseEntity<Void> deleteArticle(@PathVariable Long id){
         articleService.deleteArticle(id);
         return ResponseEntity.noContent().build();
     }
