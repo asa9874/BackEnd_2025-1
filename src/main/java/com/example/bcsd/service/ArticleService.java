@@ -1,5 +1,8 @@
 package com.example.bcsd.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +20,13 @@ public class ArticleService {
         Article article = articleRepository.findById(Long.valueOf(id))
                 .orElseThrow(() -> new IllegalArgumentException("해당 기사가 없습니다."));
         return ArticleResponseDto.from(article);
+    }
+
+    public List<ArticleResponseDto> getArticles() {
+        List<Article> articles = articleRepository.findAll();
+        return articles.stream()
+                .map(ArticleResponseDto::from)
+                .collect(Collectors.toList());
     }
 
     public ArticleResponseDto createArticle(String title, String content) {
