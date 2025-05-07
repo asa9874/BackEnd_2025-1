@@ -31,26 +31,26 @@ public class ArticleController {
 
     @GetMapping
     public ResponseEntity<List<ArticleResponseDto>> getArticles(){
-        List<ArticleResponseDto> articles = articleService.getArticles();
-        return ResponseEntity.ok().body(articles);
+        List<ArticleResponseDto> responseDtos = articleService.getArticles();
+        return ResponseEntity.ok().body(responseDtos);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ArticleResponseDto> getArticle(@PathVariable Long id){
-        ArticleResponseDto articleDto = articleService.getArticle(id);
-        return ResponseEntity.ok().body(articleDto);
+        ArticleResponseDto responseDto = articleService.getArticle(id);
+        return ResponseEntity.ok().body(responseDto);
     }
 
     @PostMapping
     public ResponseEntity<ArticleResponseDto> createArticle(@RequestBody ArticleCreateRequestDto requestDto){
-        ArticleResponseDto articleDto = articleService.createArticle(requestDto.getTitle(), requestDto.getContent());
-        return ResponseEntity.status(HttpStatus.CREATED).body(articleDto);
+        ArticleResponseDto responseDto = articleService.createArticle(requestDto.getTitle(), requestDto.getContent());
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ArticleResponseDto> updateArticle(@PathVariable Long id, @RequestBody ArticleUpdateRequestDto requestDto){
-        ArticleResponseDto articleDto = articleService.updateArticle(id, requestDto.getTitle(), requestDto.getContent());
-        return ResponseEntity.ok().body(articleDto);
+        ArticleResponseDto responseDto = articleService.updateArticle(id, requestDto.getTitle(), requestDto.getContent());
+        return ResponseEntity.ok().body(responseDto);
     }
 
     @DeleteMapping("/{id}")
