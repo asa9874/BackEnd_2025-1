@@ -14,6 +14,7 @@ public class ArticleRepository {
 
     public ArticleRepository() { // 초기 데이터
         articles.add(new Article("제목1", "내용1"));
+        articles.add(new Article("제목2", "내용2"));
     }
 
     public Optional<Article> findById(Long id) {
