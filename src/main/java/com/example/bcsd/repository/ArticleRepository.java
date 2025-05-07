@@ -22,6 +22,10 @@ public class ArticleRepository {
                        .findFirst();
     }
 
+    public List<Article> findAll() {
+        return new ArrayList<>(articles); // 복제 리스트 반환(변경 방지)
+    }
+
     public void deleteById(Long id) {
         articles.removeIf(article -> article.getId().equals(id));
     }
