@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.bcsd.model.Person;
+
 @Controller
 public class HelloController {
 
@@ -35,24 +37,6 @@ public class HelloController {
     public Person json() {
         Person person = new Person("허준기", 25);
         return person;
-    }
-
-    public class Person {
-        private String name;
-        private int age;
-
-        public Person(String name, int age) {
-            this.name = name;
-            this.age = age;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public int getAge() {
-            return age;
-        }
     }
 
 }
