@@ -10,11 +10,16 @@ import com.example.bcsd.model.Article;
 
 @Component
 public class ArticleRepository {
+    private static Long DEFAULT_ID = 0L; 
     private List<Article> articles = new ArrayList<>(); // 데이터베이스 대용
 
     public ArticleRepository() { // 초기 데이터
-        articles.add(new Article("제목1", "내용1"));
-        articles.add(new Article("제목2", "내용2"));
+        articles.add(new Article(getNextId(),"제목1", "내용1"));
+        articles.add(new Article(getNextId(),"제목2", "내용2"));
+    }
+
+    public Long getNextId() {
+        return ++DEFAULT_ID;
     }
 
     public Optional<Article> findById(Long id) {
@@ -31,9 +36,9 @@ public class ArticleRepository {
         articles.removeIf(article -> article.getId().equals(id));
     }
 
-    public void save(Article article) {
-        // 기존에 동일 id의 Article이 있다면 삭제후 추가(업데이트)
-        deleteById(article.getId());
+    public void save(Article article) { //저장(수정)
+        if(article.getId() == null) article.setId(getNextId()); //생성
+        else deleteById(article.getId());                       //수정
         articles.add(article);
     }
 }

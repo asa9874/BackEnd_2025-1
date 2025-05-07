@@ -1,15 +1,18 @@
 package com.example.bcsd.model;
 
 public class Article {
-    private static Long DEFAULT_ID = 0L; 
     private Long id;
     private String title;
     private String content;
 
 
+    public Article(Long id,String title, String content) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+    }
+
     public Article(String title, String content) {
-        DEFAULT_ID+=1;
-        this.id = DEFAULT_ID;
         this.title = title;
         this.content = content;
     }
