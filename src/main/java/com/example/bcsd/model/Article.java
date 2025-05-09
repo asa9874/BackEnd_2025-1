@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 
 public class Article {
     private Long id;
-    private Long boardId;
-    private Long memberId;
+    private Board board;
+    private Member member;
     private String title;
     private String content;
     private LocalDateTime createdAt;
@@ -14,13 +14,22 @@ public class Article {
     public Article() {
     }
 
-    public Article(Long id, Long boardId, Long memberId, String title, String content) {
+    public Article(Long id, Board board, Member member, String title, String content) {
         this.id = id;
-        this.boardId = boardId;
-        this.memberId = memberId;
+        this.board = board;
+        this.member = member;
         this.title = title;
         this.content = content;
     }
+
+    public Article( Board board, Member member, String title, String content) {
+        this.board = board;
+        this.member = member;
+        this.title = title;
+        this.content = content;
+    }
+
+
 
     public Article(Long id, String title, String content) {
         this.id = id;
@@ -56,21 +65,17 @@ public class Article {
     public void setContent(String content) {
         this.content = content;
     }
-
-    public Long getBoardId() {
-        return boardId;
+    public Board getBoard() {
+        return board;
     }
-
-    public void setBoardId(Long boardId) {
-        this.boardId = boardId;
+    public void setBoard(Board board) {
+        this.board = board;
     }
-
-    public Long getMemberId() {
-        return memberId;
+    public Member getMember() {
+        return member;
     }
-
-    public void setMemberId(Long memberId) {
-        this.memberId = memberId;
+    public void setMember(Member member) {
+        this.member = member;
     }
 
     public LocalDateTime getCreatedAt() {

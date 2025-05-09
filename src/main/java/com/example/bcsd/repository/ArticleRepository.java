@@ -8,6 +8,8 @@ import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 import com.example.bcsd.model.Article;
+import com.example.bcsd.model.Board;
+import com.example.bcsd.model.Member;
 
 @Component
 public class ArticleRepository {
@@ -15,8 +17,10 @@ public class ArticleRepository {
     private List<Article> articles = new ArrayList<>(); // 데이터베이스 대용
 
     public ArticleRepository() { // 초기 데이터
-        save(new Article(1L, 1L, 1L, "제목1", "내용1"));
-        save(new Article(2L, 2L, 2L, "제목2", "내용2"));
+        Member member = new Member(1L, "name", "email", "pw");
+        Board board = new Board(1L, "제목");
+        save(new Article(board, member, "제목1", "내용1"));
+        save(new Article(board, member, "제목2", "내용2"));
     }
 
     public Long getNextId() {
