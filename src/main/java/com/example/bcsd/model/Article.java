@@ -1,5 +1,7 @@
 package com.example.bcsd.model;
 
+import java.time.LocalDateTime;
+
 public class Article {
     private Long id;
     private Long boardId;

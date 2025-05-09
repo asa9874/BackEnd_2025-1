@@ -57,8 +57,13 @@ public class ArticleResponseDto {
     }
 
     public static ArticleResponseDto from(Article article) {
-        return new ArticleResponseDto(article.getId(), article.getTitle(), article.getContent(),
-                article.getBoardId(), article.getMemberId(), article.getCreatedAt().toString(),
+        return new ArticleResponseDto(
+                article.getId(),
+                article.getBoardId(),
+                article.getMemberId(),
+                article.getTitle(),
+                article.getContent(),
+                article.getCreatedAt().toString(),
                 article.getUpdatedAt().toString());
     }
 }
