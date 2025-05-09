@@ -29,6 +29,13 @@ public class ArticleService {
                 .collect(Collectors.toList());
     }
 
+    public List<ArticleResponseDto> getArticlesByBoardId(Long boardId) {
+        List<Article> articles = articleRepository.findByBoardId(boardId);
+        return articles.stream()
+                .map(ArticleResponseDto::from)
+                .collect(Collectors.toList());
+    }
+
     public ArticleResponseDto createArticle(String title, String content) {
         Article article = new Article(title, content);
         articleRepository.save(article);

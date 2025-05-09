@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.example.bcsd.model.Article;
@@ -39,6 +38,12 @@ public class ArticleRepository {
 
     public List<Article> findAll() {
         return new ArrayList<>(articles); // 복제 리스트 반환(변경 방지)
+    }
+
+    public List<Article> findByBoardId(Long boardId) {
+        return articles.stream()
+                .filter(article -> article.getBoard().getId().equals(boardId))
+                .toList();
     }
 
     public void deleteById(Long id) {

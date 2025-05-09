@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.bcsd.service.ArticleService;
+import com.example.bcsd.service.BoardService;
 
 @Controller
 @RequestMapping("/posts")
@@ -14,9 +15,15 @@ public class PostController {
     @Autowired
     private ArticleService articleService;
 
+    @Autowired
+    private BoardService boardService;
+
     @GetMapping
     public String getPosts(Model model) {
-        model.addAttribute("articles", articleService.getArticles());
+        Long boardId = 1L; 
+        System.out.println();
+        model.addAttribute("board", boardService.getBoard(boardId));
+        model.addAttribute("articles", articleService.getArticlesByBoardId(boardId));
         return "posts";
     }
 }
