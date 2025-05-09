@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.example.bcsd.model.Article;
@@ -16,9 +17,12 @@ public class ArticleRepository {
     private static Long DEFAULT_ID = 0L;
     private List<Article> articles = new ArrayList<>(); // 데이터베이스 대용
 
-    public ArticleRepository() { // 초기 데이터
-        Member member = new Member(1L, "name", "email", "pw");
-        Board board = new Board(1L, "제목");
+
+    public ArticleRepository(BoardRepository boardRepository, MemberRepository memberRepository) {
+        Member member = memberRepository.findById(1L)
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다."));
+        Board board = boardRepository.findById(1L)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시판이 없습니다."));
         save(new Article(board, member, "제목1", "내용1"));
         save(new Article(board, member, "제목2", "내용2"));
     }
@@ -41,13 +45,12 @@ public class ArticleRepository {
         articles.removeIf(article -> article.getId().equals(id));
     }
 
-    public void save(Article article) { //저장(수정)
-        if(article.getId() == null){
-            article.setId(getNextId()); //생성
+    public void save(Article article) { // 저장(수정)
+        if (article.getId() == null) {
+            article.setId(getNextId()); // 생성
             article.setCreatedAt(LocalDateTime.now());
-        } 
-        else{//수정
-            deleteById(article.getId());     
+        } else {// 수정
+            deleteById(article.getId());
             article.setUpdatedAt(LocalDateTime.now());
         }
         articles.add(article);
