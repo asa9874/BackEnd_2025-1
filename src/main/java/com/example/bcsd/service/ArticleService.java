@@ -8,13 +8,23 @@ import org.springframework.stereotype.Service;
 
 import com.example.bcsd.dto.ResponseDto.ArticleResponseDto;
 import com.example.bcsd.model.Article;
+import com.example.bcsd.model.Board;
+import com.example.bcsd.model.Member;
 import com.example.bcsd.repository.ArticleRepository;
+import com.example.bcsd.repository.BoardRepository;
+import com.example.bcsd.repository.MemberRepository;
 
 @Service
 public class ArticleService {
 
     @Autowired
     private ArticleRepository articleRepository;
+
+    @Autowired
+    private MemberRepository memberRepository;
+
+    @Autowired
+    private BoardRepository boardRepository;
 
     public ArticleResponseDto getArticle(Long id) {
         Article article = articleRepository.findById(Long.valueOf(id))
@@ -37,7 +47,12 @@ public class ArticleService {
     }
 
     public ArticleResponseDto createArticle(String title, String content) {
-        Article article = new Article(title, content);
+        Member member = memberRepository.findById(1L)
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다."));
+        Board board = boardRepository.findById(1L)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시판이 없습니다."));
+
+        Article article = new Article(board,member,title, content);
         articleRepository.save(article);
         return ArticleResponseDto.from(article);
     }
