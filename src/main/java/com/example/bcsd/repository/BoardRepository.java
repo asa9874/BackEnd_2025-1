@@ -35,14 +35,13 @@ public class BoardRepository {
         boards.removeIf(board -> board.getId().equals(id));
     }
 
-    public void save(Board board) { //저장(수정)
-        if(board.getId() == null){
-            board.setId(getNextId()); //생성
-        } 
-        else{//수정
-            deleteById(board.getId());     
+    public void save(Board board) { // 저장(수정)
+        if (board.getId() == null) {
+            board.setId(getNextId()); // 생성
+        } else {// 수정
+            deleteById(board.getId());
         }
         boards.add(board);
     }
-    
+
 }

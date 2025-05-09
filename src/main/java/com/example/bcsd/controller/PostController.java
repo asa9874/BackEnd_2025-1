@@ -20,10 +20,10 @@ public class PostController {
 
     @GetMapping
     public String getPosts(Model model) {
-        Long boardId = 1L; 
-        System.out.println();
+        Long boardId = 1L; // 일단 이걸로 기준으로 board 가져온다고 생각함(과제 조건에 따라 Path로 안함)
         model.addAttribute("board", boardService.getBoard(boardId));
         model.addAttribute("articles", articleService.getArticlesByBoardId(boardId));
         return "posts";
     }
+
 }

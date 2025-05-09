@@ -22,14 +22,12 @@ public class Article {
         this.content = content;
     }
 
-    public Article( Board board, Member member, String title, String content) {
+    public Article(Board board, Member member, String title, String content) {
         this.board = board;
         this.member = member;
         this.title = title;
         this.content = content;
     }
-
-
 
     public Article(Long id, String title, String content) {
         this.id = id;
@@ -65,15 +63,19 @@ public class Article {
     public void setContent(String content) {
         this.content = content;
     }
+
     public Board getBoard() {
         return board;
     }
+
     public void setBoard(Board board) {
         this.board = board;
     }
+
     public Member getMember() {
         return member;
     }
+
     public void setMember(Member member) {
         this.member = member;
     }

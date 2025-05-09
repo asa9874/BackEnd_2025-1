@@ -11,6 +11,7 @@ public class Board {
         this.id = id;
         this.title = title;
     }
+
     public Board(String title) {
         this.title = title;
     }

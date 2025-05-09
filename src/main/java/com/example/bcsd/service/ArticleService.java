@@ -52,7 +52,7 @@ public class ArticleService {
         Board board = boardRepository.findById(1L)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시판이 없습니다."));
 
-        Article article = new Article(board,member,title, content);
+        Article article = new Article(board, member, title, content);
         articleRepository.save(article);
         return ArticleResponseDto.from(article);
     }

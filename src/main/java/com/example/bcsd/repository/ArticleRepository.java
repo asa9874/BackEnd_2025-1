@@ -16,7 +16,6 @@ public class ArticleRepository {
     private static Long DEFAULT_ID = 0L;
     private List<Article> articles = new ArrayList<>(); // 데이터베이스 대용
 
-
     public ArticleRepository(BoardRepository boardRepository, MemberRepository memberRepository) {
         Member member = memberRepository.findById(1L)
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다."));

@@ -14,15 +14,19 @@ public class ArticleResponseDto {
         this.date = date;
         this.content = content;
     }
+
     public String getTitle() {
         return title;
     }
+
     public String getAuthor() {
         return author;
     }
+
     public String getDate() {
         return date;
     }
+
     public String getContent() {
         return content;
     }
@@ -32,7 +36,6 @@ public class ArticleResponseDto {
                 article.getTitle(),
                 article.getMember().getName(),
                 article.getCreatedAt().toString(),
-                article.getContent()
-        );
+                article.getContent());
     }
 }

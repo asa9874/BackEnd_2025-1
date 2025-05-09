@@ -35,14 +35,13 @@ public class MemberRepository {
         members.removeIf(member -> member.getId().equals(id));
     }
 
-    public void save(Member member) { //저장(수정)
-        if(member.getId() == null){
-            member.setId(getNextId()); //생성
-        } 
-        else{//수정
-            deleteById(member.getId());     
+    public void save(Member member) { // 저장(수정)
+        if (member.getId() == null) {
+            member.setId(getNextId()); // 생성
+        } else {// 수정
+            deleteById(member.getId());
         }
         members.add(member);
     }
-    
+
 }
