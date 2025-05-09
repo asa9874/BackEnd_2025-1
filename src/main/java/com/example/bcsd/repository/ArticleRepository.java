@@ -17,6 +17,7 @@ public class ArticleRepository {
     private List<Article> articles = new ArrayList<>(); // 데이터베이스 대용
 
     public ArticleRepository(BoardRepository boardRepository, MemberRepository memberRepository) {
+        // 초기데이터 생성 (맴버, 게시판은 1로 고정)
         Member member = memberRepository.findById(1L)
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다."));
         Board board = boardRepository.findById(1L)

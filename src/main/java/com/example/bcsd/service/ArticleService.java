@@ -47,6 +47,7 @@ public class ArticleService {
     }
 
     public ArticleResponseDto createArticle(String title, String content) {
+        //일단 멤버, 게시판은 만들때 1로 고정해둠
         Member member = memberRepository.findById(1L)
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다."));
         Board board = boardRepository.findById(1L)
