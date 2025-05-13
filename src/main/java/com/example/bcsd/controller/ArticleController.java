@@ -47,7 +47,7 @@ public class ArticleController {
 
     @PostMapping
     public ResponseEntity<ArticleResponseDto> createArticle(@RequestBody ArticleCreateRequestDto requestDto) {
-        ArticleResponseDto responseDto = articleService.createArticle(requestDto.getTitle(), requestDto.getContent());
+        ArticleResponseDto responseDto = articleService.createArticle(requestDto.getAuthorId(),requestDto.getBoardId(),requestDto.getTitle(), requestDto.getContent());
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 

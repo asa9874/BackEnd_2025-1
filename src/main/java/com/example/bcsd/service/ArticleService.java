@@ -46,11 +46,10 @@ public class ArticleService {
                 .collect(Collectors.toList());
     }
 
-    public ArticleResponseDto createArticle(String title, String content) {
-        //일단 멤버, 게시판은 만들때 1로 고정해둠
-        Member member = memberRepository.findById(1L)
+    public ArticleResponseDto createArticle(Long boardId, Long authorId, String title, String content) {
+        Member member = memberRepository.findById(authorId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다."));
-        Board board = boardRepository.findById(1L)
+        Board board = boardRepository.findById(boardId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시판이 없습니다."));
 
         Article article = new Article(board, member, title, content);
