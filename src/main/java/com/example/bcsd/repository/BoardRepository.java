@@ -1,47 +1,50 @@
 package com.example.bcsd.repository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import com.example.bcsd.model.Board;
 
-@Component
+@Repository
 public class BoardRepository {
-    private static Long DEFAULT_ID = 0L;
-    private List<Board> boards = new ArrayList<>(); // 데이터베이스 대용
-
-    public BoardRepository() { // 초기 데이터
-        save(new Board("제목1"));
-    }
-
-    public Long getNextId() {
-        return ++DEFAULT_ID;
-    }
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     public Optional<Board> findById(Long id) {
-        return boards.stream()
-                .filter(board -> board.getId().equals(id))
-                .findFirst();
+        String sql = "SELECT id, name FROM board WHERE id = ?";
+        List<Board> boards = jdbcTemplate.query(sql, boardRowMapper(), id);
+        return boards.stream().findFirst();
     }
 
     public List<Board> findAll() {
-        return new ArrayList<>(boards); // 복제 리스트 반환(변경 방지)
+        String sql = "SELECT id, name FROM board";
+        return jdbcTemplate.query(sql, boardRowMapper());
     }
 
     public void deleteById(Long id) {
-        boards.removeIf(board -> board.getId().equals(id));
+        String sql = "DELETE FROM board WHERE id = ?";
+        jdbcTemplate.update(sql, id);
     }
 
-    public void save(Board board) { // 저장(수정)
+    public void save(Board board) {
         if (board.getId() == null) {
-            board.setId(getNextId()); // 생성
-        } else {// 수정
-            deleteById(board.getId());
+            String sql = "INSERT INTO board (name) VALUES (?)";
+            jdbcTemplate.update(sql, board.getTitle());
+        } else {
+            String sql = "UPDATE board SET name = ? WHERE id = ?";
+            jdbcTemplate.update(sql, board.getTitle(), board.getId());
         }
-        boards.add(board);
+    }
+
+    private RowMapper<Board> boardRowMapper() {
+        return (rs, rowNum) -> new Board(
+                rs.getLong("id"),
+                rs.getString("name"));
     }
 
 }

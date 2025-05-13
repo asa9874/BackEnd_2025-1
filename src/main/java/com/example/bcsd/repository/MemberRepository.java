@@ -1,47 +1,53 @@
 package com.example.bcsd.repository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import com.example.bcsd.model.Member;
 
-@Component
+@Repository
 public class MemberRepository {
-    private static Long DEFAULT_ID = 0L;
-    private List<Member> members = new ArrayList<>(); // 데이터베이스 대용
 
-    public MemberRepository() { // 초기 데이터
-        save(new Member("name", "email", "pw"));
-    }
-
-    public Long getNextId() {
-        return ++DEFAULT_ID;
-    }
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     public Optional<Member> findById(Long id) {
-        return members.stream()
-                .filter(member -> member.getId().equals(id))
-                .findFirst();
+        String sql = "SELECT id, name, email, password FROM member WHERE id = ?";
+        List<Member> members = jdbcTemplate.query(sql, memberRowMapper(), id);
+        return members.stream().findFirst();
     }
 
     public List<Member> findAll() {
-        return new ArrayList<>(members); // 복제 리스트 반환(변경 방지)
+        String sql = "SELECT id, name, email, password FROM member";
+        return jdbcTemplate.query(sql, memberRowMapper());
     }
 
     public void deleteById(Long id) {
-        members.removeIf(member -> member.getId().equals(id));
+        String sql = "DELETE FROM member WHERE id = ?";
+        jdbcTemplate.update(sql, id);
     }
 
-    public void save(Member member) { // 저장(수정)
+    public void save(Member member) {
         if (member.getId() == null) {
-            member.setId(getNextId()); // 생성
-        } else {// 수정
-            deleteById(member.getId());
+            String sql = "INSERT INTO member (name, email, password) VALUES (?, ?, ?)";
+            jdbcTemplate.update(sql, member.getName(), member.getEmail(), member.getPassword());
+        } else {
+            String sql = "UPDATE member SET name = ?, email = ?, password = ? WHERE id = ?";
+            jdbcTemplate.update(sql, member.getName(), member.getEmail(), member.getPassword(), member.getId());
         }
-        members.add(member);
     }
 
+    private RowMapper<Member> memberRowMapper() {
+        return (rs, rowNum) -> new Member(
+                rs.getLong("id"),
+                rs.getString("name"),
+                rs.getString("email"),
+                rs.getString("password")
+        );
+    }
 }
