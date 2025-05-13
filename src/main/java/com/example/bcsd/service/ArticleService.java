@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.bcsd.dto.ResponseDto.ArticleResponseDto;
 import com.example.bcsd.model.Article;
@@ -47,6 +48,7 @@ public class ArticleService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public ArticleResponseDto createArticle(Long boardId, Long authorId, String title, String content) {
         Member member = memberRepository.findById(authorId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다."));
@@ -58,6 +60,7 @@ public class ArticleService {
         return ArticleResponseDto.from(article);
     }
 
+    @Transactional
     public ArticleResponseDto updateArticle(Long id,Long boardId, String title, String content) {
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시판이 없습니다."));
@@ -72,6 +75,7 @@ public class ArticleService {
         return ArticleResponseDto.from(article);
     }
 
+    @Transactional
     public void deleteArticle(Long id) {
         Article article = articleRepository.findById(Long.valueOf(id))
                 .orElseThrow(() -> new IllegalArgumentException("해당 기사가 없습니다."));
