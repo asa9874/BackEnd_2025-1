@@ -54,7 +54,7 @@ public class ArticleController {
     @PutMapping("/{id}")
     public ResponseEntity<ArticleResponseDto> updateArticle(@PathVariable(name = "id") Long id,
             @RequestBody ArticleUpdateRequestDto requestDto) {
-        ArticleResponseDto responseDto = articleService.updateArticle(id, requestDto.getTitle(),
+        ArticleResponseDto responseDto = articleService.updateArticle(id,requestDto.getBoardId(), requestDto.getTitle(),
                 requestDto.getContent());
         return ResponseEntity.ok().body(responseDto);
     }

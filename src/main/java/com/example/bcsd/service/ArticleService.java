@@ -1,5 +1,6 @@
 package com.example.bcsd.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,11 +58,15 @@ public class ArticleService {
         return ArticleResponseDto.from(article);
     }
 
-    public ArticleResponseDto updateArticle(Long id, String title, String content) {
+    public ArticleResponseDto updateArticle(Long id,Long boardId, String title, String content) {
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시판이 없습니다."));
         Article article = articleRepository.findById(Long.valueOf(id))
                 .orElseThrow(() -> new IllegalArgumentException("해당 기사가 없습니다."));
+        article.setBoard(board);
         article.setTitle(title);
         article.setContent(content);
+        article.setUpdatedAt(LocalDateTime.now());
         articleRepository.save(article);
 
         return ArticleResponseDto.from(article);
