@@ -5,10 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ArticleCreateRequestDto {
 
     @JsonProperty("board_id")
-    private Long board_id;
+    private Long boardId;
 
     @JsonProperty("author_id")
-    private Long author_id;
+    private Long authorId;
 
     private String title;
     private String content;
@@ -16,9 +16,9 @@ public class ArticleCreateRequestDto {
     public ArticleCreateRequestDto() {
     }
 
-    public ArticleCreateRequestDto(Long board_id, Long author_id, String title, String content) {
-        this.board_id = board_id;
-        this.author_id = author_id;
+    public ArticleCreateRequestDto(Long boardId, Long authorId, String title, String content) {
+        this.boardId = boardId;
+        this.authorId = authorId;
         this.title = title;
         this.content = content;
     }
@@ -40,19 +40,18 @@ public class ArticleCreateRequestDto {
     }
 
     public Long getBoardId() {
-        return board_id;
+        return boardId;
     }
 
-    public void setBoardId(Long board_id) {
-        this.board_id = board_id;
+    public void setBoardId(Long boardId) {
+        this.boardId = boardId;
     }
 
     public Long getAuthorId() {
-        return author_id;
+        return authorId;
     }
 
-    public void setAuthorId(Long author_id) {
-        this.author_id = author_id;
+    public void setAuthorId(Long authorId) {
+        this.authorId = authorId;
     }
-
 }
