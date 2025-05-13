@@ -5,14 +5,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import com.example.bcsd.model.Article;
 import com.example.bcsd.model.Board;
 import com.example.bcsd.model.Member;
 
-@Component
+@Repository
 public class ArticleRepository {
+    
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private BoardRepository boardRepository;
+
+    @Autowired
+    private MemberRepository memberRepository;
+
     private static Long DEFAULT_ID = 0L;
     private List<Article> articles = new ArrayList<>(); // 데이터베이스 대용
 
@@ -31,13 +44,15 @@ public class ArticleRepository {
     }
 
     public Optional<Article> findById(Long id) {
-        return articles.stream()
-                .filter(article -> article.getId().equals(id))
-                .findFirst();
+        String sql = "SELECT id, board_id, author_id, title, content, created_date, modified_date FROM article WHERE id = ?";
+        Article article = jdbcTemplate.queryForObject(sql, articleRowMapper(), id);
+        return Optional.ofNullable(article);
     }
 
     public List<Article> findAll() {
-        return new ArrayList<>(articles); // 복제 리스트 반환(변경 방지)
+        String sql = "SELECT id, board_id, author_id, title, content, created_date, modified_date FROM article";
+        List<Article> Articles = jdbcTemplate.query(sql, articleRowMapper());
+        return Articles;
     }
 
     public List<Article> findByBoardId(Long boardId) {
@@ -59,5 +74,19 @@ public class ArticleRepository {
             article.setUpdatedAt(LocalDateTime.now());
         }
         articles.add(article);
+    }
+
+    private RowMapper<Article> articleRowMapper() {
+        return (resultSet, rowNum) -> new Article(
+            resultSet.getLong("id"),
+            boardRepository.findById(resultSet.getLong("board_id"))
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시판이 없습니다.")),
+            memberRepository.findById(resultSet.getLong("author_id"))
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다.")),
+            resultSet.getString("title"),
+            resultSet.getString("content"),
+            resultSet.getTimestamp("created_date").toLocalDateTime(),
+            resultSet.getTimestamp("modified_date").toLocalDateTime()
+        );
     }
 }

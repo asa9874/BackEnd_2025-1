@@ -14,6 +14,17 @@ public class Article {
     public Article() {
     }
 
+    public Article(Long id, Board board, Member member, String title, String content, LocalDateTime createdAt,
+            LocalDateTime updatedAt) {
+        this.id = id;
+        this.board = board;
+        this.member = member;
+        this.title = title;
+        this.content = content;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
     public Article(Long id, Board board, Member member, String title, String content) {
         this.id = id;
         this.board = board;
