@@ -69,7 +69,7 @@ public class ArticleService {
         article.setBoard(board);
         article.setTitle(title);
         article.setContent(content);
-        article.setUpdatedAt(LocalDateTime.now());
+        article.setmodifiedDate(LocalDateTime.now());
         articleRepository.save(article);
 
         return ArticleResponseDto.from(article);

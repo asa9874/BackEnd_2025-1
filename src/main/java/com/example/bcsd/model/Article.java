@@ -8,21 +8,21 @@ public class Article {
     private Member member;
     private String title;
     private String content;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private LocalDateTime createdDate;
+    private LocalDateTime modifiedDate;
 
     public Article() {
     }
 
-    public Article(Long id, Board board, Member member, String title, String content, LocalDateTime createdAt,
-            LocalDateTime updatedAt) {
+    public Article(Long id, Board board, Member member, String title, String content, LocalDateTime createdDate,
+            LocalDateTime modifiedDate) {
         this.id = id;
         this.board = board;
         this.member = member;
         this.title = title;
         this.content = content;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.createdDate = createdDate;
+        this.modifiedDate = modifiedDate;
     }
 
     public Article(Long id, Board board, Member member, String title, String content) {
@@ -91,19 +91,19 @@ public class Article {
         this.member = member;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
     }
 
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
+    public LocalDateTime getmodifiedDate() {
+        return modifiedDate;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setmodifiedDate(LocalDateTime modifiedDate) {
+        this.modifiedDate = modifiedDate;
     }
 }

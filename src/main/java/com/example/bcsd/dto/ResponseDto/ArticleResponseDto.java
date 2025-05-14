@@ -14,15 +14,15 @@ public record ArticleResponseDto(
         String modified_date) {
 
     public static ArticleResponseDto from(Article article) {
-        String updatedAt = article.getUpdatedAt() != null ? article.getUpdatedAt().toString() : LocalDate.now().toString();
-        String createdAt = article.getCreatedAt() != null ? article.getCreatedAt().toString() : LocalDate.now().toString();
+        String modifiedDate = article.getmodifiedDate() != null ? article.getmodifiedDate().toString() : LocalDate.now().toString();
+        String createdDate = article.getCreatedDate() != null ? article.getCreatedDate().toString() : LocalDate.now().toString();
         return new ArticleResponseDto(
                 article.getId(),
                 article.getBoard().getId(),
                 article.getMember().getId(),
                 article.getTitle(),
                 article.getContent(),
-                createdAt,
-                updatedAt);
+                createdDate,
+                modifiedDate);
     }
 }
