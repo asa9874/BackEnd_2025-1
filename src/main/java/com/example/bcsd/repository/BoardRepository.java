@@ -17,8 +17,12 @@ public class BoardRepository {
 
     public Optional<Board> findById(Long id) {
         String sql = "SELECT id, name FROM board WHERE id = ?";
-        List<Board> boards = jdbcTemplate.query(sql, boardRowMapper(), id);
-        return boards.stream().findFirst();
+         try {
+            Board board = jdbcTemplate.queryForObject(sql, boardRowMapper(), id);
+            return Optional.ofNullable(board);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 
     public List<Board> findAll() {

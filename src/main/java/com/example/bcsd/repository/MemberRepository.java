@@ -18,8 +18,12 @@ public class MemberRepository {
 
     public Optional<Member> findById(Long id) {
         String sql = "SELECT id, name, email, password FROM member WHERE id = ?";
-        List<Member> members = jdbcTemplate.query(sql, memberRowMapper(), id);
-        return members.stream().findFirst();
+        try {
+            Member member = jdbcTemplate.queryForObject(sql, memberRowMapper(), id);
+            return Optional.ofNullable(member);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 
     public List<Member> findAll() {

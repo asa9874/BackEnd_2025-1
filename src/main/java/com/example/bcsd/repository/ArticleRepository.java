@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.example.bcsd.exception.NotFoundException;
 import com.example.bcsd.model.Article;
 
 @Repository
@@ -25,8 +26,12 @@ public class ArticleRepository {
 
     public Optional<Article> findById(Long id) {
         String sql = "SELECT id, board_id, author_id, title, content, created_date, modified_date FROM article WHERE id = ?";
-        Article article = jdbcTemplate.queryForObject(sql, articleRowMapper(), id);
-        return Optional.ofNullable(article);
+        try {
+            Article article = jdbcTemplate.queryForObject(sql, articleRowMapper(), id);
+            return Optional.ofNullable(article);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 
     public List<Article> findAll() {
@@ -70,9 +75,9 @@ public class ArticleRepository {
         return (resultSet, rowNum) -> new Article(
                 resultSet.getLong("id"),
                 boardRepository.findById(resultSet.getLong("board_id"))
-                        .orElseThrow(() -> new IllegalArgumentException("해당 게시판이 없습니다.")),
+                        .orElseThrow(() -> new NotFoundException("해당 게시판이 없습니다.")),
                 memberRepository.findById(resultSet.getLong("author_id"))
-                        .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다.")),
+                        .orElseThrow(() -> new NotFoundException("해당 회원이 없습니다.")),
                 resultSet.getString("title"),
                 resultSet.getString("content"),
                 resultSet.getTimestamp("created_date").toLocalDateTime(),

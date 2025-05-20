@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.bcsd.dto.ResponseDto.ArticleResponseDto;
+import com.example.bcsd.exception.NotFoundException;
 import com.example.bcsd.model.Article;
 import com.example.bcsd.model.Board;
 import com.example.bcsd.model.Member;
@@ -30,7 +31,7 @@ public class ArticleService {
 
     public ArticleResponseDto getArticle(Long id) {
         Article article = articleRepository.findById(Long.valueOf(id))
-                .orElseThrow(() -> new IllegalArgumentException("해당 기사가 없습니다."));
+                .orElseThrow(() -> new NotFoundException("해당 기사가 없습니다."));
         return ArticleResponseDto.from(article);
     }
 
@@ -51,9 +52,9 @@ public class ArticleService {
     @Transactional
     public ArticleResponseDto createArticle(Long boardId, Long authorId, String title, String content) {
         Member member = memberRepository.findById(authorId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다."));
+                .orElseThrow(() -> new NotFoundException("해당 회원이 없습니다."));
         Board board = boardRepository.findById(boardId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시판이 없습니다."));
+                .orElseThrow(() -> new NotFoundException("해당 게시판이 없습니다."));
 
         Article article = new Article(board, member, title, content);
         articleRepository.save(article);
@@ -63,9 +64,9 @@ public class ArticleService {
     @Transactional
     public ArticleResponseDto updateArticle(Long id,Long boardId, String title, String content) {
         Board board = boardRepository.findById(boardId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시판이 없습니다."));
+                .orElseThrow(() -> new NotFoundException("해당 게시판이 없습니다."));
         Article article = articleRepository.findById(Long.valueOf(id))
-                .orElseThrow(() -> new IllegalArgumentException("해당 기사가 없습니다."));
+                .orElseThrow(() -> new NotFoundException("해당 기사가 없습니다."));
         article.setBoard(board);
         article.setTitle(title);
         article.setContent(content);
@@ -78,7 +79,7 @@ public class ArticleService {
     @Transactional
     public void deleteArticle(Long id) {
         Article article = articleRepository.findById(Long.valueOf(id))
-                .orElseThrow(() -> new IllegalArgumentException("해당 기사가 없습니다."));
+                .orElseThrow(() -> new NotFoundException("해당 기사가 없습니다."));
         articleRepository.deleteById(article.getId());
     }
 }
