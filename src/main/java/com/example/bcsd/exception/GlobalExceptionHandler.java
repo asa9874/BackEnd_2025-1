@@ -28,9 +28,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
     }
 
-    @ExceptionHandler(InvalidRequestException.class)
-    public ResponseEntity<String> handleInvalidRequestException(InvalidRequestException ex) {
-        String message = "잘못된 요청 오류: " + ex.getMessage();
+    @ExceptionHandler(NullRequestException.class)
+    public ResponseEntity<String> handleInvalidRequestException(NullRequestException ex) {
+        String message = "Null 요청 오류: " + ex.getMessage();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
     }
 
