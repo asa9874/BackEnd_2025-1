@@ -2,6 +2,7 @@ package com.example.bcsd.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,5 +23,11 @@ public class MemberController {
     public ResponseEntity<MemberReponseDto> updateMember(@PathVariable(name = "memberId") Long memberId,@RequestBody MemberUpdateRequestDto requestDto) {
         MemberReponseDto responseDto = memberService.updateMember(memberId,requestDto);
         return ResponseEntity.ok().body(responseDto);
+    }
+
+    @DeleteMapping("/{memberId}")
+    public ResponseEntity<Void> deleteMember(@PathVariable(name = "memberId") Long memberId) {
+        memberService.deleteMember(memberId);
+        return ResponseEntity.noContent().build();
     }
 }

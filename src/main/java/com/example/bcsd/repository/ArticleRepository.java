@@ -44,6 +44,11 @@ public class ArticleRepository {
         return jdbcTemplate.query(sql, articleRowMapper(), boardId);
     }
 
+    public List<Article> findByAuthorId(Long authorId) {
+        String sql = "SELECT id, board_id, author_id, title, content, created_date, modified_date FROM article WHERE author_id = ?";
+        return jdbcTemplate.query(sql, articleRowMapper(), authorId);
+    }
+
     public void deleteById(Long id) {
         String sql = "DELETE FROM article WHERE id = ?";
         jdbcTemplate.update(sql, id);
