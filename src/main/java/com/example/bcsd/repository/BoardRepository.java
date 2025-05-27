@@ -3,52 +3,41 @@ package com.example.bcsd.repository;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.example.bcsd.model.Board;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+
 @Repository
 public class BoardRepository {
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public Optional<Board> findById(Long id) {
-        String sql = "SELECT id, name FROM board WHERE id = ?";
-         try {
-            Board board = jdbcTemplate.queryForObject(sql, boardRowMapper(), id);
-            return Optional.ofNullable(board);
-        } catch (Exception e) {
-            return Optional.empty();
-        }
+        Board board = entityManager.find(Board.class, id);
+        return Optional.ofNullable(board);
     }
 
     public List<Board> findAll() {
-        String sql = "SELECT id, name FROM board";
-        return jdbcTemplate.query(sql, boardRowMapper());
+        String jpql = "SELECT b FROM Board b";
+        return entityManager.createQuery(jpql, Board.class).getResultList();
     }
 
     public void deleteById(Long id) {
-        String sql = "DELETE FROM board WHERE id = ?";
-        jdbcTemplate.update(sql, id);
+        Board board = entityManager.find(Board.class, id);
+        if (board != null) {
+            entityManager.remove(board);
+        }
     }
 
     public void save(Board board) {
         if (board.getId() == null) {
-            String sql = "INSERT INTO board (name) VALUES (?)";
-            jdbcTemplate.update(sql, board.getTitle());
+            entityManager.persist(board);
         } else {
-            String sql = "UPDATE board SET name = ? WHERE id = ?";
-            jdbcTemplate.update(sql, board.getTitle(), board.getId());
+            entityManager.merge(board);
         }
     }
-
-    private RowMapper<Board> boardRowMapper() {
-        return (rs, rowNum) -> new Board(
-                rs.getLong("id"),
-                rs.getString("name"));
-    }
-
 }

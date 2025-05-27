@@ -15,6 +15,8 @@ import com.example.bcsd.model.Board;
 import com.example.bcsd.repository.ArticleRepository;
 import com.example.bcsd.repository.BoardRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class BoardService {
     @Autowired
@@ -35,6 +37,7 @@ public class BoardService {
         return BoardResponseDto.from(board);
     }
 
+    @Transactional
     public BoardResponseDto createBoard(BoardCreateRequestDto requestDto) {
         if (requestDto.getTitle() == null) {
             throw new NullRequestException("게시판 제목이 없습니다.");
@@ -46,6 +49,7 @@ public class BoardService {
         return BoardResponseDto.from(board);
     }
 
+    @Transactional
     public BoardResponseDto updateBoard(Long boardId, BoardCreateRequestDto requestDto) {
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(() -> new NotFoundException("게시판이 없습니다."));
@@ -57,6 +61,7 @@ public class BoardService {
         return BoardResponseDto.from(board);
     }
 
+    @Transactional
     public void deleteBoard(Long boardId) {
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(() -> new NotFoundException("게시판이 없습니다."));
