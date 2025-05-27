@@ -30,7 +30,7 @@ public class Article {
     private Board board;
 
     @ManyToOne
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "author_id")
     private Member member;
     private String title;
     private String content;
