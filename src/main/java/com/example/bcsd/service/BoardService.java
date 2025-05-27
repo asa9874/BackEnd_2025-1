@@ -39,7 +39,9 @@ public class BoardService {
         if (requestDto.getTitle() == null) {
             throw new NullRequestException("게시판 제목이 없습니다.");
         }
-        Board board = new Board(requestDto.getTitle());
+        Board board = Board.builder()
+                .title(requestDto.getTitle())
+                .build();
         boardRepository.save(board);
         return BoardResponseDto.from(board);
     }

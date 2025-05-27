@@ -2,108 +2,34 @@ package com.example.bcsd.model;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Article {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Board board;
     private Member member;
     private String title;
     private String content;
-    private LocalDateTime createdDate;
-    private LocalDateTime modifiedDate;
 
-    public Article() {
-    }
-
-    public Article(Long id, Board board, Member member, String title, String content, LocalDateTime createdDate,
-            LocalDateTime modifiedDate) {
-        this.id = id;
-        this.board = board;
-        this.member = member;
-        this.title = title;
-        this.content = content;
-        this.createdDate = createdDate;
-        this.modifiedDate = modifiedDate;
-    }
-
-    public Article(Long id, Board board, Member member, String title, String content) {
-        this.id = id;
-        this.board = board;
-        this.member = member;
-        this.title = title;
-        this.content = content;
-    }
-
-    public Article(Board board, Member member, String title, String content) {
-        this.board = board;
-        this.member = member;
-        this.title = title;
-        this.content = content;
-    }
-
-    public Article(Long id, String title, String content) {
-        this.id = id;
-        this.title = title;
-        this.content = content;
-    }
-
-    public Article(String title, String content) {
-        this.title = title;
-        this.content = content;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Board getBoard() {
-        return board;
-    }
-
-    public void setBoard(Board board) {
-        this.board = board;
-    }
-
-    public Member getMember() {
-        return member;
-    }
-
-    public void setMember(Member member) {
-        this.member = member;
-    }
-
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public LocalDateTime getmodifiedDate() {
-        return modifiedDate;
-    }
-
-    public void setmodifiedDate(LocalDateTime modifiedDate) {
-        this.modifiedDate = modifiedDate;
-    }
+    @Builder.Default
+    private LocalDateTime createdDate = LocalDateTime.now();
+    
+    @Builder.Default
+    private LocalDateTime modifiedDate = LocalDateTime.now();
 }

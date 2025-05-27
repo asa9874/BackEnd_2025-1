@@ -62,7 +62,12 @@ public class ArticleService {
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(() -> new InvalidReferenceException("해당 게시판이 없습니다."));
 
-        Article article = new Article(board, member, title, content);
+        Article article = Article.builder()
+                .board(board)
+                .member(member)
+                .title(title)
+                .content(content)
+                .build();
         articleRepository.save(article);
         return ArticleResponseDto.from(article);
     }
@@ -76,7 +81,7 @@ public class ArticleService {
         article.setBoard(board);
         article.setTitle(title);
         article.setContent(content);
-        article.setmodifiedDate(LocalDateTime.now());
+        article.setModifiedDate(LocalDateTime.now());
         articleRepository.save(article);
 
         return ArticleResponseDto.from(article);

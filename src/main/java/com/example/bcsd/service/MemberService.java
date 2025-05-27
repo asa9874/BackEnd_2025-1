@@ -43,7 +43,11 @@ public class MemberService {
         if (requestDto.getEmail() == null || requestDto.getPassword() == null || requestDto.getName() == null) {
             throw new NullRequestException("요청 값중에 null이 있습니다.");
         }
-        Member member = new Member(requestDto.getEmail(), requestDto.getPassword(), requestDto.getName());
+        Member member = Member.builder()
+                .email(requestDto.getEmail())
+                .password(requestDto.getPassword())
+                .name(requestDto.getName())
+                .build();
         memberRepository.save(member);
         return MemberReponseDto.from(member);
     }

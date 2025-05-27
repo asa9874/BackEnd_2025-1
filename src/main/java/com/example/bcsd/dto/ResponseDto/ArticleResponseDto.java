@@ -14,7 +14,7 @@ public record ArticleResponseDto(
         String modified_date) {
 
     public static ArticleResponseDto from(Article article) {
-        String modifiedDate = article.getmodifiedDate() != null ? article.getmodifiedDate().toString() : LocalDate.now().toString();
+        String modifiedDate = article.getModifiedDate() != null ? article.getModifiedDate().toString() : LocalDate.now().toString();
         String createdDate = article.getCreatedDate() != null ? article.getCreatedDate().toString() : LocalDate.now().toString();
         return new ArticleResponseDto(
                 article.getId(),
