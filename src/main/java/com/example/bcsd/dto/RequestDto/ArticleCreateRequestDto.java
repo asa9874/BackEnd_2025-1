@@ -2,6 +2,17 @@ package com.example.bcsd.dto.RequestDto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ArticleCreateRequestDto {
 
     @JsonProperty("board_id")
@@ -13,45 +24,4 @@ public class ArticleCreateRequestDto {
     private String title;
     private String content;
 
-    public ArticleCreateRequestDto() {
-    }
-
-    public ArticleCreateRequestDto(Long boardId, Long authorId, String title, String content) {
-        this.boardId = boardId;
-        this.authorId = authorId;
-        this.title = title;
-        this.content = content;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Long getBoardId() {
-        return boardId;
-    }
-
-    public void setBoardId(Long boardId) {
-        this.boardId = boardId;
-    }
-
-    public Long getAuthorId() {
-        return authorId;
-    }
-
-    public void setAuthorId(Long authorId) {
-        this.authorId = authorId;
-    }
 }
