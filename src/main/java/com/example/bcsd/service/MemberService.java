@@ -17,6 +17,8 @@ import com.example.bcsd.model.Member;
 import com.example.bcsd.repository.ArticleRepository;
 import com.example.bcsd.repository.MemberRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class MemberService {
 
@@ -32,6 +34,7 @@ public class MemberService {
         return MemberReponseDto.from(member);
     }
 
+    @Transactional
     public MemberReponseDto createMember(MemberCreateRequestDto requestDto) {
         List<Member> members = memberRepository.findAll();
         members.stream()
@@ -52,6 +55,7 @@ public class MemberService {
         return MemberReponseDto.from(member);
     }
 
+    @Transactional
     public MemberReponseDto updateMember(Long memberId, MemberUpdateRequestDto requestDto) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NotFoundException("회원 못찾음"));
@@ -70,6 +74,7 @@ public class MemberService {
         return MemberReponseDto.from(member);
     }
 
+    @Transactional
     public void deleteMember(Long memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NotFoundException("회원 못찾음"));

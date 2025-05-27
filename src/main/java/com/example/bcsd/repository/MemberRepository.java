@@ -3,55 +3,41 @@ package com.example.bcsd.repository;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.example.bcsd.model.Member;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+
 @Repository
 public class MemberRepository {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public Optional<Member> findById(Long id) {
-        String sql = "SELECT id, name, email, password FROM member WHERE id = ?";
-        try {
-            Member member = jdbcTemplate.queryForObject(sql, memberRowMapper(), id);
-            return Optional.ofNullable(member);
-        } catch (Exception e) {
-            return Optional.empty();
-        }
+        Member member = entityManager.find(Member.class, id);
+        return Optional.ofNullable(member);
     }
 
     public List<Member> findAll() {
-        String sql = "SELECT id, name, email, password FROM member";
-        return jdbcTemplate.query(sql, memberRowMapper());
+        String jpql = "SELECT m FROM Member m";
+        return entityManager.createQuery(jpql, Member.class).getResultList();
     }
 
     public void deleteById(Long id) {
-        String sql = "DELETE FROM member WHERE id = ?";
-        jdbcTemplate.update(sql, id);
+        Member member = entityManager.find(Member.class, id);
+        if (member != null) {
+            entityManager.remove(member);
+        }
     }
 
     public void save(Member member) {
         if (member.getId() == null) {
-            String sql = "INSERT INTO member (name, email, password) VALUES (?, ?, ?)";
-            jdbcTemplate.update(sql, member.getName(), member.getEmail(), member.getPassword());
+            entityManager.persist(member);
         } else {
-            String sql = "UPDATE member SET name = ?, email = ?, password = ? WHERE id = ?";
-            jdbcTemplate.update(sql, member.getName(), member.getEmail(), member.getPassword(), member.getId());
+            entityManager.merge(member);
         }
-    }
-
-    private RowMapper<Member> memberRowMapper() {
-        return (rs, rowNum) -> new Member(
-                rs.getLong("id"),
-                rs.getString("name"),
-                rs.getString("email"),
-                rs.getString("password")
-        );
     }
 }
