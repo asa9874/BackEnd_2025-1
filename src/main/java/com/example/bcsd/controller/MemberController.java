@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.bcsd.dto.RequestDto.MemberCreateRequestDto;
 import com.example.bcsd.dto.RequestDto.MemberUpdateRequestDto;
-import com.example.bcsd.dto.ResponseDto.MemberReponseDto;
+import com.example.bcsd.dto.ResponseDto.MemberResponseDto;
 import com.example.bcsd.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
@@ -25,20 +25,20 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/{memberId}")
-    public ResponseEntity<MemberReponseDto> getMember(@PathVariable(name = "memberId") Long memberId) {
-        MemberReponseDto responseDto = memberService.getMember(memberId);
+    public ResponseEntity<MemberResponseDto> getMember(@PathVariable(name = "memberId") Long memberId) {
+        MemberResponseDto responseDto = memberService.getMember(memberId);
         return ResponseEntity.ok().body(responseDto);
     }
 
     @PostMapping
-    public ResponseEntity<MemberReponseDto> createMember(@RequestBody MemberCreateRequestDto requestDto) {
-        MemberReponseDto responseDto = memberService.createMember(requestDto);
+    public ResponseEntity<MemberResponseDto> createMember(@RequestBody MemberCreateRequestDto requestDto) {
+        MemberResponseDto responseDto = memberService.createMember(requestDto);
         return ResponseEntity.status(201).body(responseDto);
     }
 
     @PutMapping("/{memberId}")
-    public ResponseEntity<MemberReponseDto> updateMember(@PathVariable(name = "memberId") Long memberId,@RequestBody MemberUpdateRequestDto requestDto) {
-        MemberReponseDto responseDto = memberService.updateMember(memberId,requestDto);
+    public ResponseEntity<MemberResponseDto> updateMember(@PathVariable(name = "memberId") Long memberId,@RequestBody MemberUpdateRequestDto requestDto) {
+        MemberResponseDto responseDto = memberService.updateMember(memberId,requestDto);
         return ResponseEntity.ok().body(responseDto);
     }
 

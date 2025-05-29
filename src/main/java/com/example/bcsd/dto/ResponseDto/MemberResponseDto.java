@@ -2,13 +2,13 @@ package com.example.bcsd.dto.ResponseDto;
 
 import com.example.bcsd.model.Member;
 
-public record MemberReponseDto(
+public record MemberResponseDto(
         Long id,
         String name,
         String email) {
 
-    public static MemberReponseDto from(Member member) {
-        return new MemberReponseDto(
+    public static MemberResponseDto from(Member member) {
+        return new MemberResponseDto(
                 member.getId(),
                 member.getName(),
                 member.getEmail()

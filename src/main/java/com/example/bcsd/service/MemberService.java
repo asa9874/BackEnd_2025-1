@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.bcsd.dto.RequestDto.MemberCreateRequestDto;
 import com.example.bcsd.dto.RequestDto.MemberUpdateRequestDto;
-import com.example.bcsd.dto.ResponseDto.MemberReponseDto;
+import com.example.bcsd.dto.ResponseDto.MemberResponseDto;
 import com.example.bcsd.exception.DeletionNotAllowedException;
 import com.example.bcsd.exception.EmailAlreadyExistsException;
 import com.example.bcsd.exception.NotFoundException;
@@ -27,14 +27,14 @@ public class MemberService {
 
     private final ArticleRepository articleRepository;
 
-    public MemberReponseDto getMember(Long memberId) {
+    public MemberResponseDto getMember(Long memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NotFoundException("회원 못찾음"));
-        return MemberReponseDto.from(member);
+        return MemberResponseDto.from(member);
     }
 
     @Transactional
-    public MemberReponseDto createMember(MemberCreateRequestDto requestDto) {
+    public MemberResponseDto createMember(MemberCreateRequestDto requestDto) {
         List<Member> members = memberRepository.findAll();
         members.stream()
                 .filter(m -> m.getEmail().equals(requestDto.getEmail()))
@@ -51,11 +51,11 @@ public class MemberService {
                 .name(requestDto.getName())
                 .build();
         memberRepository.save(member);
-        return MemberReponseDto.from(member);
+        return MemberResponseDto.from(member);
     }
 
     @Transactional
-    public MemberReponseDto updateMember(Long memberId, MemberUpdateRequestDto requestDto) {
+    public MemberResponseDto updateMember(Long memberId, MemberUpdateRequestDto requestDto) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NotFoundException("회원 못찾음"));
 
@@ -70,7 +70,7 @@ public class MemberService {
                 });
         member.setEmail(requestDto.getEmail());
         memberRepository.save(member);
-        return MemberReponseDto.from(member);
+        return MemberResponseDto.from(member);
     }
 
     @Transactional
