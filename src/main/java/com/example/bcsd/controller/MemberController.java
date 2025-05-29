@@ -1,5 +1,6 @@
 package com.example.bcsd.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +34,7 @@ public class MemberController {
     @PostMapping
     public ResponseEntity<MemberResponseDto> createMember(@RequestBody MemberCreateRequestDto requestDto) {
         MemberResponseDto responseDto = memberService.createMember(requestDto);
-        return ResponseEntity.status(201).body(responseDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
     @PutMapping("/{memberId}")
