@@ -48,15 +48,14 @@ public class ArticleController {
 
     @PostMapping
     public ResponseEntity<ArticleResponseDto> createArticle(@RequestBody ArticleCreateRequestDto requestDto) {
-        ArticleResponseDto responseDto = articleService.createArticle(requestDto.getAuthorId(),requestDto.getBoardId(),requestDto.getTitle(), requestDto.getContent());
+        ArticleResponseDto responseDto = articleService.createArticle(requestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ArticleResponseDto> updateArticle(@PathVariable(name = "id") Long id,
             @RequestBody ArticleUpdateRequestDto requestDto) {
-        ArticleResponseDto responseDto = articleService.updateArticle(id,requestDto.getBoardId(), requestDto.getTitle(),
-                requestDto.getContent());
+        ArticleResponseDto responseDto = articleService.updateArticle(id,requestDto);
         return ResponseEntity.ok().body(responseDto);
     }
 
