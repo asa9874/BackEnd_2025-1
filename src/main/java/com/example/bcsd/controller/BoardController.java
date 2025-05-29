@@ -1,6 +1,5 @@
 package com.example.bcsd.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,11 +14,13 @@ import com.example.bcsd.dto.RequestDto.BoardCreateRequestDto;
 import com.example.bcsd.dto.ResponseDto.BoardResponseDto;
 import com.example.bcsd.service.BoardService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/boards")
 public class BoardController {
-    @Autowired
-    private BoardService boardService;
+    private final BoardService boardService;
 
     @GetMapping("/{boardId}")
     public ResponseEntity<BoardResponseDto> getBoard(@PathVariable(name = "boardId") Long boardId) {

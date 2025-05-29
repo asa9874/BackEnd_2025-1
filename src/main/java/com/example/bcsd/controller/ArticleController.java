@@ -2,7 +2,6 @@ package com.example.bcsd.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,12 +19,14 @@ import com.example.bcsd.dto.RequestDto.ArticleUpdateRequestDto;
 import com.example.bcsd.dto.ResponseDto.ArticleResponseDto;
 import com.example.bcsd.service.ArticleService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/articles")
 public class ArticleController {
 
-    @Autowired
-    private ArticleService articleService;
+    private final ArticleService articleService;
 
     @GetMapping
     public ResponseEntity<List<ArticleResponseDto>> getArticles() {

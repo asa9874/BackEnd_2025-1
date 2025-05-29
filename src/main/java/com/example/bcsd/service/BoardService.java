@@ -2,7 +2,6 @@ package com.example.bcsd.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.bcsd.dto.RequestDto.BoardCreateRequestDto;
@@ -16,14 +15,16 @@ import com.example.bcsd.repository.ArticleRepository;
 import com.example.bcsd.repository.BoardRepository;
 
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class BoardService {
-    @Autowired
-    private BoardRepository boardRepository;
+    
+    private final BoardRepository boardRepository;
 
-    @Autowired
-    private ArticleRepository articleRepository;
+    
+    private final ArticleRepository articleRepository;
 
     public Board getBoardM(Long boardId) {
         Board board = boardRepository.findById(boardId)

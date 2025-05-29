@@ -2,7 +2,6 @@ package com.example.bcsd.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.bcsd.dto.RequestDto.MemberCreateRequestDto;
@@ -18,15 +17,15 @@ import com.example.bcsd.repository.ArticleRepository;
 import com.example.bcsd.repository.MemberRepository;
 
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class MemberService {
 
-    @Autowired
-    private MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
 
-    @Autowired
-    private ArticleRepository articleRepository;
+    private final ArticleRepository articleRepository;
 
     public MemberReponseDto getMember(Long memberId) {
         Member member = memberRepository.findById(memberId)

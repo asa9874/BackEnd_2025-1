@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,17 +18,17 @@ import com.example.bcsd.repository.ArticleRepository;
 import com.example.bcsd.repository.BoardRepository;
 import com.example.bcsd.repository.MemberRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class ArticleService {
-
-    @Autowired
-    private ArticleRepository articleRepository;
-
-    @Autowired
-    private MemberRepository memberRepository;
-
-    @Autowired
-    private BoardRepository boardRepository;
+ 
+    private final ArticleRepository articleRepository;
+ 
+    private final MemberRepository memberRepository;
+ 
+    private final BoardRepository boardRepository;
 
     public ArticleResponseDto getArticle(Long id) {
         Article article = articleRepository.findById(Long.valueOf(id))
