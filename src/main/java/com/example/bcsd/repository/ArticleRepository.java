@@ -3,56 +3,20 @@ package com.example.bcsd.repository;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.bcsd.model.Article;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+public interface ArticleRepository extends JpaRepository<Article, Long> {
+    Optional<Article> findById(Long id);
 
-@Repository
-public class ArticleRepository {
+    List<Article> findAll();
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    List<Article> findByBoardId(Long boardId);
 
-    public Optional<Article> findById(Long id) {
-        Article article = entityManager.find(Article.class, id);
-        return Optional.ofNullable(article);
-    }
+    List<Article> findByAuthorId(Long authorId);
 
-    public List<Article> findAll() {
-        String jpql = "SELECT a FROM Article a";
-        return entityManager.createQuery(jpql, Article.class).getResultList();
-    }
+    void deleteById(Long id);
 
-    public List<Article> findByBoardId(Long boardId) {
-        String jpql = "SELECT a FROM Article a WHERE a.board.id = :boardId";
-        return entityManager.createQuery(jpql, Article.class)
-                            .setParameter("boardId", boardId)
-                            .getResultList();
-    }
-
-    public List<Article> findByAuthorId(Long authorId) {
-        String jpql = "SELECT a FROM Article a WHERE a.member.id = :authorId";
-        return entityManager.createQuery(jpql, Article.class)
-                            .setParameter("authorId", authorId)
-                            .getResultList();
-    }
-
-    public void deleteById(Long id) {
-        Article article = entityManager.find(Article.class, id);
-        if (article != null) {
-            entityManager.remove(article);
-        }
-    }
-
-    public void save(Article article) {
-       if (article.getId() == null) { // 생성
-            entityManager.persist(article);
-        } else { // 수정
-            entityManager.merge(article);
-        }
-    }
-    
+    Article save(Article article);
 }

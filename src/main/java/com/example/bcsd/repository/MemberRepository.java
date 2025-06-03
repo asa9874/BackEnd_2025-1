@@ -3,41 +3,16 @@ package com.example.bcsd.repository;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.bcsd.model.Member;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+public interface MemberRepository extends JpaRepository<Member, Long> {
+    Optional<Member> findById(Long id);
 
-@Repository
-public class MemberRepository {
+    List<Member> findAll();
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    void deleteById(Long id);
 
-    public Optional<Member> findById(Long id) {
-        Member member = entityManager.find(Member.class, id);
-        return Optional.ofNullable(member);
-    }
-
-    public List<Member> findAll() {
-        String jpql = "SELECT m FROM Member m";
-        return entityManager.createQuery(jpql, Member.class).getResultList();
-    }
-
-    public void deleteById(Long id) {
-        Member member = entityManager.find(Member.class, id);
-        if (member != null) {
-            entityManager.remove(member);
-        }
-    }
-
-    public void save(Member member) {
-        if (member.getId() == null) {
-            entityManager.persist(member);
-        } else {
-            entityManager.merge(member);
-        }
-    }
+    Member save(Member member);
 }

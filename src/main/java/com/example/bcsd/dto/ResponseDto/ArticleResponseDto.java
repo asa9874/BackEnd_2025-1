@@ -19,7 +19,7 @@ public record ArticleResponseDto(
         return new ArticleResponseDto(
                 article.getId(),
                 article.getBoard().getId(),
-                article.getMember().getId(),
+                article.getAuthor().getId(),
                 article.getTitle(),
                 article.getContent(),
                 createdDate,

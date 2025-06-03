@@ -3,41 +3,17 @@ package com.example.bcsd.repository;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.bcsd.model.Board;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-
-@Repository
-public class BoardRepository {
+public interface  BoardRepository extends JpaRepository<Board, Long> {
+    Optional<Board> findById(Long id);
     
-    @PersistenceContext
-    private EntityManager entityManager;
-
-    public Optional<Board> findById(Long id) {
-        Board board = entityManager.find(Board.class, id);
-        return Optional.ofNullable(board);
-    }
-
-    public List<Board> findAll() {
-        String jpql = "SELECT b FROM Board b";
-        return entityManager.createQuery(jpql, Board.class).getResultList();
-    }
-
-    public void deleteById(Long id) {
-        Board board = entityManager.find(Board.class, id);
-        if (board != null) {
-            entityManager.remove(board);
-        }
-    }
-
-    public void save(Board board) {
-        if (board.getId() == null) {
-            entityManager.persist(board);
-        } else {
-            entityManager.merge(board);
-        }
-    }
+    List<Board> findAll();
+    
+    void deleteById(Long id);
+    
+    Board save(Board board);
 }
+

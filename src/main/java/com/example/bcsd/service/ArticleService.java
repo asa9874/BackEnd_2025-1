@@ -69,7 +69,7 @@ public class ArticleService {
 
         Article article = Article.builder()
                 .board(board)
-                .member(member)
+                .author(member)
                 .title(requestDto.getTitle())
                 .content(requestDto.getContent())
                 .build();

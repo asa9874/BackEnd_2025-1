@@ -31,7 +31,7 @@ public class Article {
 
     @ManyToOne
     @JoinColumn(name = "author_id")
-    private Member member;
+    private Member author;
     private String title;
     private String content;
 
