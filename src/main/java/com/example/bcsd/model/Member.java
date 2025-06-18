@@ -8,11 +8,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -23,4 +21,8 @@ public class Member {
     private String name;
     private String email;
     private String password;
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }
