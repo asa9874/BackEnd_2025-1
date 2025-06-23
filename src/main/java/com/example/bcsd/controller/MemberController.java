@@ -16,6 +16,7 @@ import com.example.bcsd.dto.RequestDto.MemberUpdateRequestDto;
 import com.example.bcsd.dto.ResponseDto.MemberResponseDto;
 import com.example.bcsd.service.MemberService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -32,13 +33,13 @@ public class MemberController {
     }
 
     @PostMapping
-    public ResponseEntity<MemberResponseDto> createMember(@RequestBody MemberCreateRequestDto requestDto) {
+    public ResponseEntity<MemberResponseDto> createMember(@Valid @RequestBody MemberCreateRequestDto requestDto) {
         MemberResponseDto responseDto = memberService.createMember(requestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
     @PutMapping("/{memberId}")
-    public ResponseEntity<MemberResponseDto> updateMember(@PathVariable(name = "memberId") Long memberId,@RequestBody MemberUpdateRequestDto requestDto) {
+    public ResponseEntity<MemberResponseDto> updateMember(@PathVariable(name = "memberId") Long memberId,@Valid @RequestBody MemberUpdateRequestDto requestDto) {
         MemberResponseDto responseDto = memberService.updateMember(memberId,requestDto);
         return ResponseEntity.ok().body(responseDto);
     }

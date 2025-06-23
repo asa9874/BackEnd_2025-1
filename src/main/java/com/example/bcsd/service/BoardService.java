@@ -36,9 +36,6 @@ public class BoardService {
 
     @Transactional
     public BoardResponseDto createBoard(BoardCreateRequestDto requestDto) {
-        if (requestDto.getTitle() == null) {
-            throw new NullRequestException("게시판 제목이 없습니다.");
-        }
         Board board = Board.builder()
                 .title(requestDto.getTitle())
                 .build();
@@ -50,9 +47,6 @@ public class BoardService {
     public BoardResponseDto updateBoard(Long boardId, BoardCreateRequestDto requestDto) {
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(() -> new NotFoundException("게시판이 없습니다."));
-        if (requestDto.getTitle() == null) {
-            throw new NullRequestException("게시판 제목이 없습니다.");
-        }
         board.setTitle(requestDto.getTitle());
         boardRepository.save(board);
         return BoardResponseDto.from(board);

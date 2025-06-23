@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/posts")
 public class PostController {
+    
     private final ArticleService articleService;
     private final BoardService boardService;
 

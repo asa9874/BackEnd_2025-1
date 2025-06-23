@@ -12,7 +12,6 @@ import com.example.bcsd.dto.RequestDto.ArticleUpdateRequestDto;
 import com.example.bcsd.dto.ResponseDto.ArticleResponseDto;
 import com.example.bcsd.exception.InvalidReferenceException;
 import com.example.bcsd.exception.NotFoundException;
-import com.example.bcsd.exception.NullRequestException;
 import com.example.bcsd.model.Article;
 import com.example.bcsd.model.Board;
 import com.example.bcsd.model.Member;
@@ -55,13 +54,6 @@ public class ArticleService {
     @Transactional
     public ArticleResponseDto createArticle(ArticleCreateRequestDto requestDto) {
 
-        if(requestDto == null) {
-            throw new NullRequestException("요청 값이 null입니다.");
-        }
-        if(requestDto.getAuthorId() == null || requestDto.getBoardId() == null || requestDto.getTitle() == null || requestDto.getContent() == null) {
-            throw new NullRequestException("요청 값중에 null이 있습니다.");
-        }
-        
         Member member = memberRepository.findById(requestDto.getAuthorId())
                 .orElseThrow(() -> new InvalidReferenceException("해당 회원이 없습니다."));
         Board board = boardRepository.findById(requestDto.getBoardId())
@@ -79,12 +71,6 @@ public class ArticleService {
 
     @Transactional
     public ArticleResponseDto updateArticle(Long id,ArticleUpdateRequestDto requestDto) {
-        if(requestDto == null) {
-            throw new NullRequestException("요청 값이 null입니다.");
-        }
-        if(requestDto.getBoardId() == null || requestDto.getTitle() == null || requestDto.getContent() == null) {
-            throw new NullRequestException("요청 값중에 null이 있습니다.");
-        }
         Board board = boardRepository.findById(requestDto.getBoardId())
                 .orElseThrow(() -> new InvalidReferenceException("해당 게시판이 없습니다."));
         Article article = articleRepository.findById(Long.valueOf(id))

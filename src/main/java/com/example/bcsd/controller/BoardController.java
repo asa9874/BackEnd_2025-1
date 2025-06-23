@@ -15,12 +15,14 @@ import com.example.bcsd.dto.RequestDto.BoardCreateRequestDto;
 import com.example.bcsd.dto.ResponseDto.BoardResponseDto;
 import com.example.bcsd.service.BoardService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/boards")
 public class BoardController {
+    
     private final BoardService boardService;
 
     @GetMapping("/{boardId}")
@@ -30,14 +32,14 @@ public class BoardController {
     }
 
     @PostMapping
-    public ResponseEntity<BoardResponseDto> createBoard(@RequestBody BoardCreateRequestDto requestDto) {
+    public ResponseEntity<BoardResponseDto> createBoard(@Valid @RequestBody BoardCreateRequestDto requestDto) {
         BoardResponseDto responseDto = boardService.createBoard(requestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
     @PutMapping("/{boardId}")
     public ResponseEntity<BoardResponseDto> updateBoard(@PathVariable(name = "boardId") Long boardId,
-            @RequestBody BoardCreateRequestDto requestDto) {
+            @Valid @RequestBody BoardCreateRequestDto requestDto) {
         BoardResponseDto responseDto = boardService.updateBoard(boardId, requestDto);
         return ResponseEntity.ok().body(responseDto);
     }

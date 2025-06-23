@@ -2,6 +2,7 @@ package com.example.bcsd.controller;
 
 import java.util.List;
 
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +20,7 @@ import com.example.bcsd.dto.RequestDto.ArticleUpdateRequestDto;
 import com.example.bcsd.dto.ResponseDto.ArticleResponseDto;
 import com.example.bcsd.service.ArticleService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -47,14 +49,14 @@ public class ArticleController {
     }
 
     @PostMapping
-    public ResponseEntity<ArticleResponseDto> createArticle(@RequestBody ArticleCreateRequestDto requestDto) {
+    public ResponseEntity<ArticleResponseDto> createArticle(@Valid @RequestBody ArticleCreateRequestDto requestDto) {
         ArticleResponseDto responseDto = articleService.createArticle(requestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ArticleResponseDto> updateArticle(@PathVariable(name = "id") Long id,
-            @RequestBody ArticleUpdateRequestDto requestDto) {
+            @Valid @RequestBody ArticleUpdateRequestDto requestDto) {
         ArticleResponseDto responseDto = articleService.updateArticle(id,requestDto);
         return ResponseEntity.ok().body(responseDto);
     }

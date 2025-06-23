@@ -35,16 +35,10 @@ public class MemberService {
 
     @Transactional
     public MemberResponseDto createMember(MemberCreateRequestDto requestDto) {
-        List<Member> members = memberRepository.findAll();
-        members.stream()
-                .filter(m -> m.getEmail().equals(requestDto.getEmail()))
-                .findFirst()
-                .ifPresent(m -> {
-                    throw new EmailAlreadyExistsException("이미 존재하는 이메일입니다.");
-                });
-        if (requestDto.getEmail() == null || requestDto.getPassword() == null || requestDto.getName() == null) {
-            throw new NullRequestException("요청 값중에 null이 있습니다.");
+        if (memberRepository.existsByEmail(requestDto.getEmail())) {
+            throw new EmailAlreadyExistsException("이미 존재하는 이메일입니다.");
         }
+
         Member member = Member.builder()
                 .email(requestDto.getEmail())
                 .password(requestDto.getPassword())
@@ -59,15 +53,10 @@ public class MemberService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NotFoundException("회원 못찾음"));
 
-        List<Member> members = memberRepository.findAll();
+        if (memberRepository.existsByEmail(requestDto.getEmail())) {
+            throw new EmailAlreadyExistsException("이미 존재하는 이메일입니다.");
+        }
 
-        members.stream()
-                .filter(m -> m.getId() != memberId)
-                .forEach(m -> {
-                    if (m.getEmail().equals(requestDto.getEmail())) {
-                        throw new EmailAlreadyExistsException("이미 존재하는 이메일입니다.");
-                    }
-                });
         member.setEmail(requestDto.getEmail());
         memberRepository.save(member);
         return MemberResponseDto.from(member);
