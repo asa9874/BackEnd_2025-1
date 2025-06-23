@@ -75,10 +75,7 @@ public class ArticleService {
                 .orElseThrow(() -> new InvalidReferenceException("해당 게시판이 없습니다."));
         Article article = articleRepository.findById(Long.valueOf(id))
                 .orElseThrow(() -> new InvalidReferenceException("해당 기사가 없습니다."));
-        article.setBoard(board);
-        article.setTitle(requestDto.getTitle());
-        article.setContent(requestDto.getContent());
-        article.setModifiedDate(LocalDateTime.now());
+        article.update(board, requestDto.getTitle(), requestDto.getContent());
         articleRepository.save(article);
 
         return ArticleResponseDto.from(article);

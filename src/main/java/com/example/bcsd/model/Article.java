@@ -39,19 +39,10 @@ public class Article {
     @Builder.Default
     private LocalDateTime modifiedDate = LocalDateTime.now();
 
-    public void setBoard(Board board) {
+    public void update(Board board, String title, String content) {
         this.board = board;
-    }
-    public void setAuthor(Member author) {
-        this.author = author;
-    }
-    public void setTitle(String title) {
         this.title = title;
-    }
-    public void setContent(String content) {
         this.content = content;
-    }
-    public void setModifiedDate(LocalDateTime modifiedDate) {
-        this.modifiedDate = modifiedDate;
+        this.modifiedDate = LocalDateTime.now();
     }
 }
