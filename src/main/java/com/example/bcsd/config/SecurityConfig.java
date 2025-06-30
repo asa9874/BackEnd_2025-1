@@ -16,11 +16,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.devquest.domain.auth.service.CustomOAuth2UserService;
-import com.devquest.global.components.OAuth2LoginSuccessHandler;
-import com.devquest.global.exception.CustomAuthenticationEntryPoint;
-import com.devquest.global.jwt.JwtAuthenticationFilter;
-import com.devquest.global.jwt.JwtTokenProvider;
+import com.example.bcsd.jwt.JwtAuthenticationFilter;
+import com.example.bcsd.jwt.JwtTokenProvider;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,21 +27,17 @@ import lombok.RequiredArgsConstructor;
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
     private final JwtTokenProvider jwtTokenProvider;
-    private final CustomOAuth2UserService customOAuth2UserService;
-    private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
-    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
-    
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .exceptionHandling(eh -> eh.authenticationEntryPoint(customAuthenticationEntryPoint))
                 .authorizeHttpRequests(auth -> auth
                         .anyRequest().permitAll())
                 .csrf(csrf -> csrf.disable())
                 .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class));
+                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
