@@ -10,6 +10,8 @@ import com.example.bcsd.model.Member;
 public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member> findById(Long id);
 
+    Optional<Member> findByEmail(String email);
+
     List<Member> findAll();
 
     void deleteById(Long id);

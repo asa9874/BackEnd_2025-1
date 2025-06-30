@@ -36,3 +36,5 @@ application.yml
 
 ### VS Code ###
 .vscode/
+
+application.properties
